@@ -1,0 +1,42 @@
+{
+  "ar": {
+    "InvalidSettings": "إعدادات غير صالحة",
+    "Timeout": "حدث مهلة"
+  },
+  "fa": {
+    "InvalidSettings": "تنظیمات نامعتبر",
+    "Timeout": "خطای تایم اوت"
+  },
+  "en": {
+    "InvalidSettings": "Invalid settings",
+    "Timeout": "Timeout occurred"
+  },
+  "de": {
+    "InvalidSettings": "Ungültige Einstellungen",
+    "Timeout": "Timeout ist aufgetreten"
+  },
+  "fr": {
+    "InvalidSettings": "Paramètres non valides",
+    "Timeout": "Timeout est arrivé"
+  },
+  "es": {
+    "InvalidSettings": "Configuraciones inválidas",
+    "Timeout": "Se agotó el tiempo de espera"
+  },
+  "tr": {
+    "InvalidSettings": "Geçersiz ayarlar",
+    "Timeout": "Zaman aşımı gerçekleşti"
+  },
+  "ru": {
+    "InvalidSettings": "Неверные настройки",
+    "Timeout": "Тайм-аут произошел"
+  },
+  "ur": {
+    "InvalidSettings": "غلط ترتیبات",
+    "Timeout": "ٹائم آؤٹ ہوا"
+  },
+  "ps": {
+    "InvalidSettings": "ناباوره تنظیمات",
+    "Timeout": "وخت ختم شو"
+  }
+}
