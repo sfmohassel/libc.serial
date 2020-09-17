@@ -1,5 +1,5 @@
-﻿using libc.models.Extensions;
-using libc.serial.AtDevice;
+﻿using libc.serial.AtDevice;
+using libc.serial.Internal;
 namespace libc.serial.Sim900 {
     public class AtCPreferredMsgTest : AtCommand {
         private const string cmd = "at+cpms?\r";

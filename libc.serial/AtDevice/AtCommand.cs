@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using libc.concurrency;
-using libc.models.Extensions;
+using libc.serial.Internal;
 namespace libc.serial.AtDevice {
     public abstract class AtCommand {
         public const string Ok = "OK";

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
-using libc.concurrency;
+using libc.serial.Internal;
 using libc.serial.Resources;
 namespace libc.serial.Base {
     public class ComPort : IComPort {

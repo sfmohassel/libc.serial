@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using libc.models.Dating;
-using libc.models.Extensions;
 using libc.serial.AtDevice;
+using libc.serial.Internal;
 namespace libc.serial.Sim900 {
     public class AtCReadSms : AtCommand {
         private static readonly ZoneInfo zone = new ZoneInfo("Asia/Tehran", Calendars.Persian);
@@ -68,7 +67,7 @@ namespace libc.serial.Sim900 {
                 Flag = f,
                 Mobile = mobile,
                 Text = text,
-                SendDate = new Dat(zone, year, month, day, hour, minute, second)
+                SendDateTicks = new Dat(zone, year, month, day, hour, minute, second).UnixTicks()
             });
         }
     }

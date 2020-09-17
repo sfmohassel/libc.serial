@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
-using libc.concurrency;
 using libc.serial.Base;
+using libc.serial.Internal;
 namespace libc.serial.AtDevice {
     public class AtController {
         private readonly QueueThreadSafe<AtCommand> cmdQ;

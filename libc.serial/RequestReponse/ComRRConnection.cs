@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using libc.concurrency;
+using libc.serial.Internal;
 using libc.serial.Resources;
 using libc.serial.WithThreshold;
 namespace libc.serial.RequestReponse {

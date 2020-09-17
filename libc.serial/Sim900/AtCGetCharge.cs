@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using libc.models.Extensions;
 using libc.serial.AtDevice;
+using libc.serial.Internal;
 namespace libc.serial.Sim900 {
     public class AtCGetCharge : AtCommand {
         private static readonly IDictionary<SimCardOperators, string> getCharge = new Dictionary

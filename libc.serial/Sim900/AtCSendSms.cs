@@ -1,6 +1,6 @@
 ﻿using System;
-using libc.models.Extensions;
 using libc.serial.AtDevice;
+using libc.serial.Internal;
 namespace libc.serial.Sim900 {
     public class AtCSendSms : AtCommand {
         private readonly string cmd;

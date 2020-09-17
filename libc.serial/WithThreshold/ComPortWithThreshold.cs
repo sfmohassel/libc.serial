@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using libc.concurrency;
 using libc.serial.Base;
+using libc.serial.Internal;
 namespace libc.serial.WithThreshold {
     public class ComPortWithThreshold : ComPort {
         private readonly WorkerThread checkBufferThread;
