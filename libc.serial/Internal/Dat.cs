@@ -1,25 +1,19 @@
 ﻿using System.Globalization;
-using Newtonsoft.Json;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using NodaTime;
 namespace libc.serial.Internal {
     internal sealed class Dat : NotifyModel, IUpdatable {
         public const string PrettyDatePattern = "dddd d MMMM yyyy";
         public const string PrettyDateTimePatter = "dddd d MMMM yyyy h:m:s tt";
-        [JsonIgnore]
         private int _Day;
-        [JsonIgnore]
         private int _Hour;
-        [JsonIgnore]
         private int _Millisecond;
-        [JsonIgnore]
         private int _Minute;
-        [JsonIgnore]
         private int _Month;
-        [JsonIgnore]
         private int _Second;
-        [JsonIgnore]
         private int _Year;
-        [JsonIgnore]
         private ZoneInfo _ZoneInfo;
         internal Dat() {
         }
@@ -119,7 +113,12 @@ namespace libc.serial.Internal {
         /// </summary>
         /// <returns></returns>
         public override string ToString() {
-            return JsonConvert.SerializeObject(this, Formatting.None);
+            return JsonSerializer.Serialize<Dat>(this, new JsonSerializerOptions {
+                AllowTrailingCommas = true,
+                MaxDepth = 10,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                PropertyNameCaseInsensitive = true,
+            });
         }
         public string ToString(string pattern, CultureInfo cultureInfo) {
             return DateTime().ToString(pattern, cultureInfo);

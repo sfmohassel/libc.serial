@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using Newtonsoft.Json;
 using NodaTime;
 namespace libc.serial.Internal {
     internal class ZoneInfo : NotifyModel {
@@ -11,9 +10,7 @@ namespace libc.serial.Internal {
                 Calendars.Persian, new CultureInfo("fa")
             }
         };
-        [JsonIgnore]
         private Calendars _Calendar;
-        [JsonIgnore]
         private string _ZoneId;
         public ZoneInfo() {
         }

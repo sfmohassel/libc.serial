@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 namespace libc.serial.RequestReponse {
     public abstract class ComRRRequest {
         protected ComRRRequest() {

@@ -1,12 +1,9 @@
 ﻿using System.Xml.Serialization;
 using libc.serial.Base;
-using Newtonsoft.Json;
 namespace libc.serial.WithThreshold {
     public class ComPortWithThresholdSettings : ComPortSettings {
-        [JsonIgnore]
         [XmlIgnore]
         private readonly object thresholdLock = new object();
-        [JsonIgnore]
         [XmlIgnore]
         private int threshold;
         public int Threshold {
