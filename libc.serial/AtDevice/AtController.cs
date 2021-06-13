@@ -2,46 +2,67 @@
 using System.Threading;
 using libc.serial.Base;
 using libc.serial.Internal;
-namespace libc.serial.AtDevice {
-    public class AtController {
+
+namespace libc.serial.AtDevice
+{
+    public class AtController
+    {
         private readonly QueueThreadSafe<AtCommand> cmdQ;
         private readonly ComPort port;
         private volatile AtCommand activeCmd;
         private volatile bool cannotStop;
         private volatile bool isAnyCommandActive;
         private volatile bool isRunning;
-        private ATask sendTask;
-        public AtController(ComPortSettings settings, Action<ComPortErrorNames, Exception> errorCallback) {
+        private DelayedTask sendTask;
+
+        public AtController(ComPortSettings settings, Action<ComPortErrorNames, Exception> errorCallback)
+        {
             port = new ComPort(settings, rcv, errorCallback);
             cmdQ = new QueueThreadSafe<AtCommand>();
         }
+
         public bool IsOpen => port != null && port.IsOpen;
-        public void Start() {
-            if (isRunning) {
+
+        public void Start()
+        {
+            if (isRunning)
+            {
                 Stop();
                 Start();
-            } else {
+            }
+            else
+            {
                 port.Open();
                 startSending();
             }
+
             isRunning = true;
         }
-        public void Stop() {
+
+        public void Stop()
+        {
             while (cannotStop) Thread.Sleep(10);
             stopSending();
             port.Close();
             isRunning = false;
         }
-        public void SendCommand(AtCommand cmd) {
+
+        public void SendCommand(AtCommand cmd)
+        {
             cmdQ.Enqueue(cmd);
         }
-        private void rcv(byte val) {
+
+        private void rcv(byte val)
+        {
             if (isAnyCommandActive) activeCmd.NewData((char) val);
         }
-        private void sendNext() {
+
+        private void sendNext()
+        {
             //make sure there's some command active
             if (!isAnyCommandActive && cmdQ.Any())
-                if (cmdQ.TryDequeue(out var cmd)) {
+                if (cmdQ.TryDequeue(out var cmd))
+                {
                     setActiveCmd(cmd);
 
                     //cannot stop
@@ -50,9 +71,12 @@ namespace libc.serial.AtDevice {
                     //now that there's one active command, let it do
                     activeCmd.ControlAsync(port, sendIsFinished);
                 }
-            sendTask.Execute();
+
+            sendTask.Start();
         }
-        private void sendIsFinished(AtCommand cmd) {
+
+        private void sendIsFinished(AtCommand cmd)
+        {
             //active command is done
             releaseActiveCmd();
 
@@ -62,29 +86,39 @@ namespace libc.serial.AtDevice {
 
         #region starting/stoping
 
-        private void startSending() {
-            sendTask = new ATask(sendNext, 1000);
-            sendTask.Execute();
+        private void startSending()
+        {
+            sendTask = new DelayedTask(sendNext, 1000);
+            sendTask.Start();
         }
-        private void stopSending() {
-            sendTask.Cancel();
+
+        private void stopSending()
+        {
+            sendTask.Stop();
         }
 
         #endregion
 
         #region utility
 
-        private void setActiveCmd(AtCommand cmd) {
+        private void setActiveCmd(AtCommand cmd)
+        {
             activeCmd = cmd;
             isAnyCommandActive = true;
         }
-        private void releaseActiveCmd() {
+
+        private void releaseActiveCmd()
+        {
             isAnyCommandActive = false;
         }
-        private void disallowStop() {
+
+        private void disallowStop()
+        {
             cannotStop = true;
         }
-        private void allowStop() {
+
+        private void allowStop()
+        {
             cannotStop = false;
         }
 

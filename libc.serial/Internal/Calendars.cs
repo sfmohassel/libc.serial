@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel;
-namespace libc.serial.Internal {
+
+namespace libc.serial.Internal
+{
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    internal enum Calendars {
+    internal enum Calendars
+    {
         [Description("Gregorian")]
         Gregorian,
+
         [Description("PersianArithmetic")]
         Persian
     }

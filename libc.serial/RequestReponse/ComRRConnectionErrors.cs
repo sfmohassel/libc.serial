@@ -1,5 +1,7 @@
-﻿namespace libc.serial.RequestReponse {
-    public enum ComRRConnectionErrors {
+﻿namespace libc.serial.RequestReponse
+{
+    public enum ComRRConnectionErrors
+    {
         None,
         Exception,
         InvalidState,

@@ -1,6 +1,9 @@
 ﻿using System;
-namespace libc.serial.Internal {
-    internal static class DateAndTimeExtensions {
+
+namespace libc.serial.Internal
+{
+    internal static class DateAndTimeExtensions
+    {
         // public static (Dat from, Dat to) DayInterval(this Dat k) {
         //     var s = k.ToDate();
         //     var e = s.Add(Period.FromDays(1)).Subtract(Period.FromMilliseconds(1));
@@ -23,12 +26,17 @@ namespace libc.serial.Internal {
         //         sb.AppendFormat("{0} minute{1} ", span.Minutes, span.Minutes > 1 ? "s" : string.Empty);
         //     return sb.ToString();
         // }
-        internal static bool IsValid(this Dat item) {
-            try {
+        internal static bool IsValid(this Dat item)
+        {
+            try
+            {
                 if (item == null) return false;
                 var k = item.DateTime();
+
                 return true;
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 return false;
             }
         }

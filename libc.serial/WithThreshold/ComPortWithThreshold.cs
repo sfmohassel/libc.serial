@@ -2,48 +2,71 @@
 using System.Collections.Generic;
 using libc.serial.Base;
 using libc.serial.Internal;
-namespace libc.serial.WithThreshold {
-    public class ComPortWithThreshold : ComPort {
-        private readonly WorkerThread checkBufferThread;
+
+namespace libc.serial.WithThreshold
+{
+    public class ComPortWithThreshold : ComPort
+    {
+        private readonly RepeatedTask checkBufferThread;
         private readonly Func<List<byte>, bool> packetRcv;
         private readonly ComPortWithThresholdSettings settings;
+
         public ComPortWithThreshold(ComPortWithThresholdSettings settings,
             Func<List<byte>, bool> packetRcvAction,
             Action<ComPortErrorNames, Exception> errorCallback)
-            : base(settings, errorCallback) {
-            try {
+            : base(settings, errorCallback)
+        {
+            try
+            {
                 this.settings = settings;
                 packetRcv = packetRcvAction ?? throw new ArgumentNullException(nameof(packetRcvAction));
                 Buffer = new Queue<byte>();
-                checkBufferThread = new WorkerThread(checkBuffer, 1);
+                checkBufferThread = new RepeatedTask(checkBuffer, 1);
                 checkBufferThread.Start();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 raiseError(ComPortErrorNames.OnConstruction, ex);
             }
         }
-        public override void Dispose() {
+
+        public override void Dispose()
+        {
             base.Dispose();
-            try {
+
+            try
+            {
                 checkBufferThread.Stop();
                 clearBuffer();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 raiseError(ComPortErrorNames.OnDispose, ex);
             }
         }
-        private void checkBuffer() {
+
+        private void checkBuffer()
+        {
             List<byte> packet;
             var count = settings.Threshold;
-            lock (Buffer) {
+
+            lock (Buffer)
+            {
                 if (Buffer.Count < count) return;
                 packet = new List<byte>();
                 for (var i = 0; i < count; i++) packet.Add(Buffer.Dequeue());
             }
+
             var valid = packetRcv(packet);
             if (!valid) clearBuffer();
         }
-        private void clearBuffer() {
+
+        private void clearBuffer()
+        {
             TryClearInBuffer();
-            lock (Buffer) {
+
+            lock (Buffer)
+            {
                 Buffer.Clear();
             }
         }

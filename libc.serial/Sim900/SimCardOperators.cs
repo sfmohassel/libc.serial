@@ -1,5 +1,7 @@
-﻿namespace libc.serial.Sim900 {
-    public enum SimCardOperators {
+﻿namespace libc.serial.Sim900
+{
+    public enum SimCardOperators
+    {
         Irancell,
         HamrahAval
     }

@@ -1,5 +1,7 @@
-﻿namespace libc.serial.Base {
-    public enum ComPortErrorNames {
+﻿namespace libc.serial.Base
+{
+    public enum ComPortErrorNames
+    {
         OnOpen,
         OnClose,
         OnWrite,

@@ -1,10 +1,12 @@
 ﻿using System.Globalization;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using NodaTime;
-namespace libc.serial.Internal {
-    internal sealed class Dat : NotifyModel, IUpdatable {
+
+namespace libc.serial.Internal
+{
+    internal sealed class Dat : NotifyModel, IUpdatable
+    {
         public const string PrettyDatePattern = "dddd d MMMM yyyy";
         public const string PrettyDateTimePatter = "dddd d MMMM yyyy h:m:s tt";
         private int _Day;
@@ -15,15 +17,21 @@ namespace libc.serial.Internal {
         private int _Second;
         private int _Year;
         private ZoneInfo _ZoneInfo;
-        internal Dat() {
+
+        internal Dat()
+        {
         }
+
         internal Dat(ZonedDateTime dateTime)
             : this(new ZoneInfo(dateTime.Zone, dateTime.Calendar), dateTime.Year, dateTime.Month, dateTime.Day,
-                dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond) {
+                dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond)
+        {
         }
+
         internal Dat(ZoneInfo zoneInfo, int year, int month, int day, int hour = 0, int minute = 0, int second = 0,
             int millisecond = 0)
-            : this(zoneInfo) {
+            : this(zoneInfo)
+        {
             Year = year;
             Month = month;
             Day = day;
@@ -32,8 +40,10 @@ namespace libc.serial.Internal {
             Second = second;
             Millisecond = millisecond;
         }
+
         public Dat(ZoneInfo zoneInfo, Instant instantUtc)
-            : this(zoneInfo) {
+            : this(zoneInfo)
+        {
             var k = instantUtc.InZone(ZoneInfo.Zone(), ZoneInfo.CalendarSystem());
             Year = k.Year;
             Month = k.Month;
@@ -43,59 +53,88 @@ namespace libc.serial.Internal {
             Second = k.Second;
             Millisecond = k.Millisecond;
         }
-        public Dat(IUpdatable another) {
+
+        public Dat(IUpdatable another)
+        {
             UpdateFrom(another);
         }
-        private Dat(ZoneInfo zoneInfo) {
+
+        private Dat(ZoneInfo zoneInfo)
+        {
             ZoneInfo = zoneInfo;
         }
-        public ZoneInfo ZoneInfo {
+
+        public ZoneInfo ZoneInfo
+        {
             get => _ZoneInfo;
             set => Set(ref _ZoneInfo, value, () => ZoneInfo);
         }
-        public int Year {
+
+        public int Year
+        {
             get => _Year;
-            set {
+            set
+            {
                 Set(ref _Year, value, () => Year);
             }
         }
-        public int Month {
+
+        public int Month
+        {
             get => _Month;
-            set {
+            set
+            {
                 Set(ref _Month, value, () => Month);
             }
         }
-        public int Day {
+
+        public int Day
+        {
             get => _Day;
-            set {
+            set
+            {
                 Set(ref _Day, value, () => Day);
             }
         }
-        public int Hour {
+
+        public int Hour
+        {
             get => _Hour;
-            set {
+            set
+            {
                 Set(ref _Hour, value, () => Hour);
             }
         }
-        public int Minute {
+
+        public int Minute
+        {
             get => _Minute;
-            set {
+            set
+            {
                 Set(ref _Minute, value, () => Minute);
             }
         }
-        public int Second {
+
+        public int Second
+        {
             get => _Second;
-            set {
+            set
+            {
                 Set(ref _Second, value, () => Second);
             }
         }
-        public int Millisecond {
+
+        public int Millisecond
+        {
             get => _Millisecond;
-            set {
+            set
+            {
                 Set(ref _Millisecond, value, () => Millisecond);
             }
         }
-        public void UpdateFrom(IUpdatable o) {
+
+        public void UpdateFrom(IUpdatable o)
+        {
             var item = (Dat) o;
             if (ZoneInfo == null) ZoneInfo = new ZoneInfo();
             ZoneInfo.Calendar = item.ZoneInfo.Calendar;
@@ -108,67 +147,96 @@ namespace libc.serial.Internal {
             Second = item.Second;
             Millisecond = item.Millisecond;
         }
+
         /// <summary>
         ///     returns JSON format
         /// </summary>
         /// <returns></returns>
-        public override string ToString() {
-            return JsonSerializer.Serialize<Dat>(this, new JsonSerializerOptions {
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this, new JsonSerializerOptions
+            {
                 AllowTrailingCommas = true,
                 MaxDepth = 10,
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                 PropertyNameCaseInsensitive = true,
             });
         }
-        public string ToString(string pattern, CultureInfo cultureInfo) {
+
+        public string ToString(string pattern, CultureInfo cultureInfo)
+        {
             return DateTime().ToString(pattern, cultureInfo);
         }
-        public string ToString(string pattern) {
+
+        public string ToString(string pattern)
+        {
             return ToString(pattern, ZoneInfo.GetCultureInfo());
         }
-        public string ToStringPrettyDate() {
+
+        public string ToStringPrettyDate()
+        {
             return DateTime().ToString(PrettyDatePattern, ZoneInfo.GetCultureInfo());
         }
-        public string ToStringPrettyDateTime() {
+
+        public string ToStringPrettyDateTime()
+        {
             return DateTime().ToString(PrettyDateTimePatter, ZoneInfo.GetCultureInfo());
         }
-        public ZonedDateTime DateTime() {
+
+        public ZonedDateTime DateTime()
+        {
             return new LocalDateTime(Year, Month, Day, Hour, Minute, Second, Millisecond, ZoneInfo.CalendarSystem())
                 .InZoneLeniently(ZoneInfo.Zone());
         }
-        public Instant Instant() {
+
+        public Instant Instant()
+        {
             return DateTime().ToInstant();
         }
-        public long UnixMilliseconds() {
+
+        public long UnixMilliseconds()
+        {
             return Instant().ToUnixTimeMilliseconds();
         }
-        public long UnixTicks() {
+
+        public long UnixTicks()
+        {
             return Instant().ToUnixTimeTicks();
         }
-        public IsoDayOfWeek DayOfWeek() {
+
+        public IsoDayOfWeek DayOfWeek()
+        {
             return DateTime().DayOfWeek;
         }
-        public Dat ToDate() {
+
+        public Dat ToDate()
+        {
             return new Dat(ZoneInfo, Year, Month, Day);
         }
+
         /// <summary>
         ///     Don't add days with this method!!!
         /// </summary>
         /// <param name="period"></param>
         /// <returns></returns>
-        public Dat Add(Period period) {
+        public Dat Add(Period period)
+        {
             var k = DateTime().LocalDateTime + period;
             var dayEnd = ZoneInfo.Zone().AtLeniently(k);
+
             return new Dat(dayEnd);
         }
+
         /// <summary>
         ///     Dont't subtract days with this method!!!
         /// </summary>
         /// <param name="period"></param>
         /// <returns></returns>
-        public Dat Subtract(Period period) {
+        public Dat Subtract(Period period)
+        {
             var k = DateTime().LocalDateTime - period;
             var dayEnd = ZoneInfo.Zone().AtLeniently(k);
+
             return new Dat(dayEnd);
         }
     }
