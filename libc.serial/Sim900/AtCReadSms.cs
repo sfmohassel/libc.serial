@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using libc.serial.AtDevice;
 using libc.serial.Internal;
 
@@ -6,7 +7,6 @@ namespace libc.serial.Sim900
 {
     public class AtCReadSms : AtCommand
     {
-        private static readonly ZoneInfo zone = new ZoneInfo("Asia/Tehran", Calendars.Persian);
         private readonly string cmd;
 
         public AtCReadSms(AtCReadSmsFlags flag)
@@ -93,7 +93,7 @@ namespace libc.serial.Sim900
                 Flag = f,
                 Mobile = mobile,
                 Text = text,
-                SendDateTicks = new Dat(zone, year, month, day, hour, minute, second).UnixTicks()
+                SendDateTicks = new DateTimeOffset(new DateTime(year, month, day, hour, minute, second)).ToUnixTimeMilliseconds() * 1000
             });
         }
     }
