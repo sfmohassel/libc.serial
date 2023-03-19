@@ -1,35 +1,35 @@
 ﻿namespace libc.serial.RequestReponse
 {
-    public enum ComRRConnectionStates
-    {
-        /// <summary>
-        ///     وضعیت اولیه
-        /// </summary>
-        None,
+  public enum ComRRConnectionStates
+  {
+    /// <summary>
+    ///     Initial State
+    /// </summary>
+    None,
 
-        /// <summary>
-        ///     ارسال انجام شده است
-        /// </summary>
-        Sent,
+    /// <summary>
+    ///     Message is sent
+    /// </summary>
+    Sent,
 
-        /// <summary>
-        ///     پاسخ بطور کامل دریافت شده است
-        /// </summary>
-        Done,
+    /// <summary>
+    ///     Response is received completely
+    /// </summary>
+    Done,
 
-        /// <summary>
-        ///     پاسخ بطور ناقص دریافت شده است
-        /// </summary>
-        DoneButNotComplete,
+    /// <summary>
+    ///     Response is received but not completely
+    /// </summary>
+    DoneButNotComplete,
 
-        /// <summary>
-        ///     عدم دریافت پاسخ در زمان مقتضی
-        /// </summary>
-        Timedout,
+    /// <summary>
+    ///     Timeout while waiting for response
+    /// </summary>
+    Timedout,
 
-        /// <summary>
-        ///     خطای غیر قابل پیش بینی رخ داده است
-        /// </summary>
-        Error
-    }
+    /// <summary>
+    ///     Unknown error
+    /// </summary>
+    Error
+  }
 }

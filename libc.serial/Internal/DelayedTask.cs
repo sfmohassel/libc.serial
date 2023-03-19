@@ -3,75 +3,75 @@ using System.Timers;
 
 namespace libc.serial.Internal
 {
-    internal class DelayedTask : IDisposable
+  internal class DelayedTask : IDisposable
+  {
+    private readonly Action _action;
+    private readonly Timer _timer;
+    private double _duration;
+
+    public DelayedTask(Action callback, int duration)
     {
-        private readonly Action action;
-        private readonly Timer timer;
-        private double duration;
+      _action = callback;
+      _duration = duration;
 
-        public DelayedTask(Action callback, int duration)
-        {
-            action = callback;
-            this.duration = duration;
+      _timer = new Timer
+      {
+        AutoReset = false
+      };
 
-            timer = new Timer
-            {
-                AutoReset = false
-            };
-
-            timer.Elapsed += tmr_Elapsed;
-        }
-
-        public double Duration
-        {
-            get => duration;
-            set
-            {
-                duration = value;
-                if (duration > 0) timer.Interval = value;
-            }
-        }
-
-        public void Dispose()
-        {
-            Stop();
-            timer?.Dispose();
-        }
-
-        public void Start()
-        {
-            if (Math.Abs(Duration) < 0.0009)
-            {
-                action.BeginInvoke(null, null);
-            }
-            else
-            {
-                timer.Interval = Duration;
-                timer.Start();
-            }
-        }
-
-        public void Stop()
-        {
-            try
-            {
-                timer.Stop();
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        public void Reset()
-        {
-            Stop();
-            Start();
-        }
-
-        private void tmr_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            action();
-        }
+      _timer.Elapsed += tmr_Elapsed;
     }
+
+    public double Duration
+    {
+      get => _duration;
+      set
+      {
+        _duration = value;
+        if (_duration > 0) _timer.Interval = value;
+      }
+    }
+
+    public void Dispose()
+    {
+      Stop();
+      _timer?.Dispose();
+    }
+
+    public void Start()
+    {
+      if (Math.Abs(Duration) < 0.0009)
+      {
+        _action.BeginInvoke(null, null);
+      }
+      else
+      {
+        _timer.Interval = Duration;
+        _timer.Start();
+      }
+    }
+
+    public void Stop()
+    {
+      try
+      {
+        _timer.Stop();
+      }
+      catch
+      {
+        // ignored
+      }
+    }
+
+    public void Reset()
+    {
+      Stop();
+      Start();
+    }
+
+    private void tmr_Elapsed(object sender, ElapsedEventArgs e)
+    {
+      _action();
+    }
+  }
 }
