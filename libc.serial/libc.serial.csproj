@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
-    <Version>7.0.0</Version>
+    <Version>7.0.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Saeid Farahi Mohassel</Authors>
+    <Authors>Saeed Farahi Mohassel</Authors>
     <Product>Serial port library for C#</Product>
-    <RepositoryUrl>https://github.com/saeidjoker/libc.serial</RepositoryUrl>
+    <RepositoryUrl>https://github.com/sfmohassel/libc.serial</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
